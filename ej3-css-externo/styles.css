@@ -1,0 +1,31 @@
+h1 {
+    color: green;
+    width: fit-content;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    border: 5px solid black;
+}
+
+h2 {
+    color: blue;
+    width: fit-content;
+    margin: 10px;
+    border-bottom: 5px solid black;
+}
+
+h3 {
+    color: blue;
+    width: fit-content;
+    margin: 10px;
+}
+
+ul {
+    color: red;
+    margin: 10px;
+}
+
+ol {
+    color: red;
+    margin: 10px;
+}
