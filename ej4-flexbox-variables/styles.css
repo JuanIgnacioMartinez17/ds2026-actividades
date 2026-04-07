@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-principal: #3498db;
+    --borde-redondeado: 15px;
+    --sombra-suave: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.Box {
+    display: flex;        
+    gap: 15px;            
+    justify-content: center; 
+    margin-bottom: 20px;
+}
+
+.Box a {
+    text-decoration: none;
+    padding: 10px;
+    color: white;
+    background-color: var(--color-principal); 
+    border-radius: var(--borde-redondeado);   
+    box-shadow: var(--sombra-suave);          
+}
+
+ul, ol {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: var(--borde-redondeado);
+}
