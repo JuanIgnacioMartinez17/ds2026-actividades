@@ -1,0 +1,24 @@
+body {
+    background-color: black;
+    color: white;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: column; 
+    margin: 10px; 
+}
+
+button {
+    margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+    .form-grupo {
+        flex-direction: row; 
+        align-items: center;
+        gap: 10px; 
+    }
+}
