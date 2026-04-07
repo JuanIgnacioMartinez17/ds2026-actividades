@@ -1,2 +1,1 @@
-# ds2026-actividades
-Ejercicios de la facultad
+Juan Ignacio Martínez - Comisión S33
