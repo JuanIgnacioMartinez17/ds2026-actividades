@@ -1,0 +1,9 @@
+body { font-family: sans-serif; padding: 20px; }
+#lista-usuarios { list-style: none; padding: 0; }
+li { 
+    background: #eee; 
+    margin: 5px 0; 
+    padding: 10px; 
+    border-radius: 4px; 
+}
+#cargando { font-weight: bold; color: blue; }
