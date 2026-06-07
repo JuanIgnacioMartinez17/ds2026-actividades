@@ -1,14 +1,14 @@
 import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Header() {
     return (
     <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
-        <Navbar.Brand href="#">📖 Librería</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">📖 Librería</Navbar.Brand>
         <Nav className="ms-auto">
-            <Nav.Link href="#">Inicio</Nav.Link>
-            <Nav.Link href="#">Catálogo</Nav.Link>
-            <Nav.Link href="#">Contacto</Nav.Link>
+            <Nav.Link as={Link} to="/">Inicio</Nav.Link>
+            <Nav.Link as={Link} to="/catalogo">Catálogo</Nav.Link>
         </Nav>
         </Container>
     </Navbar>
