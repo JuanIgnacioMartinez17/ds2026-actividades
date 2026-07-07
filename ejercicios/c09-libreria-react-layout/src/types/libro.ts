@@ -3,4 +3,8 @@ export type LibroCardProps = {
     titulo: string;
     autor: string;
     imagen: string;
+    anio: number;
+    genero: string;
+    sinopsis: string;
 };
+

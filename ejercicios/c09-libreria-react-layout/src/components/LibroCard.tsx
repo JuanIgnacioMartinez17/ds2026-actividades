@@ -8,7 +8,15 @@ function LibroCard({ id, titulo, autor, imagen }: LibroCardProps) {
 
     return (
     <Card className="h-100">
-        <Card.Img variant="top" src={imagen} alt={titulo} style={{ height: '200px', objectFit: 'cover' }} />
+        <Card.Img
+            variant="top"
+            src={imagen}
+            alt={titulo}
+            style={{ height: '200px', objectFit: 'cover' }}
+            onError={(e) => {
+    (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x200?text=Sin+imagen';
+    }}
+/>
         <Card.Body className="d-flex flex-column">
         <Card.Title className="fs-6">{titulo}</Card.Title>
         <Card.Text className="text-muted small">{autor}</Card.Text>
@@ -26,3 +34,4 @@ function LibroCard({ id, titulo, autor, imagen }: LibroCardProps) {
 }
 
 export default LibroCard;
+
