@@ -1,0 +1,59 @@
+import type { LibroCardProps } from '../types/libro';
+
+export const libros: LibroCardProps[] = [
+    {
+    id: 1,
+    titulo: 'Cien años de soledad',
+    autor: 'Gabriel García Márquez',
+    imagen: 'https://covers.openlibrary.org/b/isbn/9780307947352-M.jpg',
+    anio: 1967,
+    genero: 'Realismo mágico',
+    sinopsis: 'La historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo.',
+    },
+    {
+    id: 2,
+    titulo: 'El nombre del viento',
+    autor: 'Patrick Rothfuss',
+    imagen: 'https://covers.openlibrary.org/b/isbn/9788408117117-M.jpg',
+    anio: 2007,
+    genero: 'Fantasía',
+    sinopsis: 'Kvothe, el legendario mago, narra su propia historia desde su infancia hasta convertirse en la figura más temida de su época.',
+    },
+    {
+    id: 3,
+    titulo: 'El guardián en el centeno',
+    autor: 'J.D. Salinger',
+    imagen: 'https://covers.openlibrary.org/b/isbn/9780316769174-M.jpg',
+    anio: 1951,
+    genero: 'Ficción',
+    sinopsis: 'Holden Caulfield narra su experiencia tras ser expulsado de su escuela y sus días en Nueva York.',
+    },
+    {
+    id: 4,
+    titulo: '1984',
+    autor: 'George Orwell',
+    imagen: 'https://covers.openlibrary.org/b/isbn/9780451524935-M.jpg',
+    anio: 1949,
+    genero: 'Distopía',
+    sinopsis: 'En un estado totalitario donde el Gran Hermano lo vigila todo, Winston Smith intenta rebelarse contra el sistema.',
+    },
+    {
+    id: 5,
+    titulo: 'El principito',
+    autor: 'Antoine de Saint-Exupéry',
+    imagen: 'https://covers.openlibrary.org/b/isbn/9780156013987-M.jpg',
+    anio: 1943,
+    genero: 'Fábula',
+    sinopsis: 'Un pequeño príncipe viaja por el universo aprendiendo sobre la vida, el amor y la amistad.',
+    },
+    {
+    id: 6,
+    titulo: 'Don Quijote de la Mancha',
+    autor: 'Miguel de Cervantes',
+    imagen: 'https://covers.openlibrary.org/b/isbn/9788420412146-M.jpg',
+    anio: 1605,
+    genero: 'Novela',
+    sinopsis: 'Alonso Quijano, enloquecido por los libros de caballería, decide convertirse en caballero andante junto a su fiel escudero Sancho Panza.',
+    },
+];
+
