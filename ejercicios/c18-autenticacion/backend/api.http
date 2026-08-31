@@ -1,0 +1,185 @@
+@baseUrl = http://localhost:3000
+
+### Hello
+GET {{baseUrl}}/
+
+### === AUTH ===
+
+### Registro
+POST {{baseUrl}}/api/auth/registro
+Content-Type: application/json
+
+{ "nombre": "Ana", "email": "ana@libreria.test", "password": "Libreria2026" }
+
+### Registro con mismo email → 409
+POST {{baseUrl}}/api/auth/registro
+Content-Type: application/json
+
+{ "nombre": "Ana", "email": "ana@libreria.test", "password": "Libreria2026" }
+
+### Registro con password débil → 400
+POST {{baseUrl}}/api/auth/registro
+Content-Type: application/json
+
+{ "nombre": "Ana", "email": "otra@libreria.test", "password": "corta" }
+
+### Login con mail que no existe → 401
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "noexiste@libreria.test", "password": "cualquiera" }
+
+### Login con password mal → 401
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "ana@libreria.test", "password": "incorrecta" }
+
+### Login correcto como CLIENTE (Ana, recién registrada)
+# @name loginCliente
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "ana@libreria.test", "password": "Libreria2026" }
+
+### Login correcto como ADMIN (seed)
+# @name loginAdmin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "admin@libreria.test", "password": "Admin1234" }
+
+### Guardamos los tokens de las respuestas anteriores
+@tokenCliente = {{loginCliente.response.body.token}}
+@tokenAdmin = {{loginAdmin.response.body.token}}
+
+### /yo sin token → 401
+GET {{baseUrl}}/api/auth/yo
+
+### /yo con token de CLIENTE → 200
+GET {{baseUrl}}/api/auth/yo
+Authorization: Bearer {{tokenCliente}}
+
+### /yo con token de ADMIN → 200
+GET {{baseUrl}}/api/auth/yo
+Authorization: Bearer {{tokenAdmin}}
+
+### === LIBROS ===
+
+### Listar libros (público)
+GET {{baseUrl}}/api/libros
+
+### Sólo los disponibles
+GET {{baseUrl}}/api/libros?disponible=true
+
+### Un libro (con autor y categorías)
+GET {{baseUrl}}/api/libros/1
+
+### Un libro que no existe → 404
+GET {{baseUrl}}/api/libros/999
+
+### Crear un libro sin token → 401
+POST {{baseUrl}}/api/libros
+Content-Type: application/json
+
+{ "titulo": "Ficciones", "autorId": 3, "precio": 5800, "imagen": "https://example.com/ficciones.jpg", "disponible": true }
+
+### Crear un libro con token de CLIENTE → 403
+POST {{baseUrl}}/api/libros
+Content-Type: application/json
+Authorization: Bearer {{tokenCliente}}
+
+{ "titulo": "Ficciones", "autorId": 3, "precio": 5800, "imagen": "https://example.com/ficciones.jpg", "disponible": true }
+
+### Crear un libro con token de ADMIN → 201
+POST {{baseUrl}}/api/libros
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "titulo": "Ficciones", "autorId": 3, "precio": 5800, "imagen": "https://example.com/ficciones.jpg", "disponible": true }
+
+### Editar un libro (ADMIN)
+PUT {{baseUrl}}/api/libros/1
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "titulo": "El principito (edición especial)", "precio": 5000 }
+
+### Editar un libro que no existe → 404
+PUT {{baseUrl}}/api/libros/999
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "titulo": "No existe" }
+
+### Borrar un libro (ADMIN)
+DELETE {{baseUrl}}/api/libros/2
+Authorization: Bearer {{tokenAdmin}}
+
+### Borrar el mismo libro de nuevo → 404
+DELETE {{baseUrl}}/api/libros/2
+Authorization: Bearer {{tokenAdmin}}
+
+### --- Casos de error (C17) ---
+
+### 400 - sin título
+POST {{baseUrl}}/api/libros
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "precio": 5000, "imagen": "https://example.com/x.jpg", "autorId": 1 }
+
+### 400 - id inválido en la URL
+GET {{baseUrl}}/api/libros/abc
+
+### 400 - el autor no existe (formato válido, dato imposible)
+POST {{baseUrl}}/api/libros
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "titulo": "Huérfano", "precio": 5000, "imagen": "https://example.com/x.jpg", "autorId": 9999 }
+
+### === AUTORES ===
+
+### Listar autores (público)
+GET {{baseUrl}}/api/autores
+
+### Un autor
+GET {{baseUrl}}/api/autores/1
+
+### Un autor que no existe → 404
+GET {{baseUrl}}/api/autores/999
+
+### Crear un autor (ADMIN)
+POST {{baseUrl}}/api/autores
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "nombre": "Jorge Luis Borges", "nacionalidad": "Argentina" }
+
+### Editar un autor (ADMIN)
+PUT {{baseUrl}}/api/autores/1
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "nacionalidad": "Francesa" }
+
+### Editar un autor que no existe → 404
+PUT {{baseUrl}}/api/autores/999
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "nombre": "No existe" }
+
+### --- Casos de error (C17) ---
+
+### 409 - autor duplicado (nombre ya existe)
+POST {{baseUrl}}/api/autores
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{ "nombre": "Gabriel García Márquez", "nacionalidad": "Colombia" }
+
+### 409 - borrar un autor con libros (onDelete: Restrict)
+DELETE {{baseUrl}}/api/autores/3
+Authorization: Bearer {{tokenAdmin}}
