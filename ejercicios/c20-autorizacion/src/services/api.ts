@@ -1,6 +1,6 @@
 import { obtenerToken } from "./sesion";
 
-const BASE = import.meta.env.VITE_API_URL;
+const BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 export class ApiError extends Error {
     status: number;
@@ -28,5 +28,6 @@ export async function apiFetch<T>(ruta: string, opciones: RequestInit = {}): Pro
         window.dispatchEvent(new Event('sesion-expirada'));
     }
     if (!res.ok) throw new ApiError(res.status, cuerpo?.error ?? `Error ${res.status}`);
+    if (cuerpo === null) throw new ApiError(res.status, "La API respondió con contenido inválido");
     return cuerpo as T;
 }

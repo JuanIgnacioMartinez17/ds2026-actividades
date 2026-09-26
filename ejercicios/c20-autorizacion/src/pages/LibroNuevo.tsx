@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { libroSchema } from '../schemas/libroSchema';
 import { apiFetch } from '../services/api';
-import type { Libro } from '../types/libro';
+import { useFetch } from '../hooks/useFetch';
+import type { Autor, Libro } from '../types/libro';
 
 function LibroNuevo() {
     const navigate = useNavigate();
+    const { data: autores, loading: cargandoAutores } = useFetch<Autor[]>('/autores');
 
     const [form, setForm] = useState({
     titulo: '',
@@ -21,7 +23,7 @@ function LibroNuevo() {
     const [enviando, setEnviando] = useState(false);
 
     const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
     const { name, value, type } = e.target;
     const checked = e.target instanceof HTMLInputElement ? e.target.checked : false;
@@ -61,7 +63,7 @@ function LibroNuevo() {
     };
 
     return (
-    <Container className="my-5" style={{ maxWidth: 480 }}>
+    <Container className="my-5 auth-page" style={{ maxWidth: 480 }}>
         <h2 className="mb-4">Nuevo libro</h2>
 
         {errorApi && <Alert variant="danger">{errorApi}</Alert>}
@@ -81,14 +83,19 @@ function LibroNuevo() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-            <Form.Label>ID del autor</Form.Label>
-            <Form.Control
-            type="number"
+            <Form.Label>Autor</Form.Label>
+            <Form.Select
             name="autorId"
             value={form.autorId}
             onChange={handleChange}
             isInvalid={!!errores.autorId}
-            />
+            disabled={cargandoAutores}
+            >
+            <option value="">Seleccioná un autor</option>
+            {(autores ?? []).map((autor) => (
+                <option key={autor.id} value={autor.id}>{autor.nombre}</option>
+            ))}
+            </Form.Select>
             <Form.Control.Feedback type="invalid">
             {errores.autorId}
             </Form.Control.Feedback>
@@ -111,7 +118,9 @@ function LibroNuevo() {
         <Form.Group className="mb-3">
             <Form.Label>Imagen (URL)</Form.Label>
             <Form.Control
+            type="url"
             name="imagen"
+            placeholder="https://..."
             value={form.imagen}
             onChange={handleChange}
             isInvalid={!!errores.imagen}
@@ -131,7 +140,7 @@ function LibroNuevo() {
             />
         </Form.Group>
 
-        <Button type="submit" disabled={enviando}>
+        <Button variant="dark" type="submit" disabled={enviando || cargandoAutores}>
             {enviando ? 'Guardando...' : 'Agregar libro'}
         </Button>
         </Form>

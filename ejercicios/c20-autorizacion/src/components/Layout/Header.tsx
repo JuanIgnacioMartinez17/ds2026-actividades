@@ -13,8 +13,11 @@ function Header() {
         '/': 'Inicio | Librería',
         '/catalogo': 'Catálogo | Librería',
         '/libros/nuevo': 'Nuevo libro | Librería',
+        '/login': 'Iniciar sesión | Librería',
+        '/sin-permiso': 'Acceso denegado | Librería',
     };
-    document.title = titulos[location.pathname] ?? 'Librería';
+    document.title = titulos[location.pathname]
+        ?? (location.pathname.startsWith('/libros/') ? 'Detalle del libro | Librería' : 'Librería');
     }, [location.pathname]);
 
     const manejarSesion = () => {
@@ -27,10 +30,14 @@ function Header() {
     };
 
     return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg" className="site-header">
         <Container>
-        <Navbar.Brand as={Link} to="/">📖 Librería</Navbar.Brand>
-        <Nav className="ms-auto">
+        <Navbar.Brand as={Link} to="/" className="site-brand">
+            <span aria-hidden="true">📖</span> Librería
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="site-navigation" />
+        <Navbar.Collapse id="site-navigation">
+        <Nav className="ms-auto align-items-lg-center gap-lg-2">
             <Nav.Link as={Link} to="/">Inicio</Nav.Link>
             <Nav.Link as={Link} to="/catalogo">Catálogo</Nav.Link>
             {tieneRol('ADMIN') && <Nav.Link as={Link} to="/libros/nuevo">Nuevo libro</Nav.Link>}
@@ -39,6 +46,7 @@ function Header() {
                 {usuario ? 'Salir' : 'Ingresar'}
             </Button>
         </Nav>
+        </Navbar.Collapse>
         </Container>
     </Navbar>
     );

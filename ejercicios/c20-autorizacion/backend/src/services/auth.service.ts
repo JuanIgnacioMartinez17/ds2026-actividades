@@ -32,5 +32,8 @@ export async function login(datos: Login) {
 }
 
 export async function findById(id: number) {
-    return prisma.usuario.findUnique({ where: { id } });
+    return prisma.usuario.findUnique({
+        where: { id },
+        select: { id: true, email: true, nombre: true, rol: true },
+    });
 }

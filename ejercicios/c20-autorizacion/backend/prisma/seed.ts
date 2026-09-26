@@ -18,7 +18,7 @@ const libros = [
     titulo: "El principito",
     autor: "Antoine de Saint-Exupéry",
     precio: 4500,
-    imagen: "https://example.com/principito.jpg",
+    imagen: "https://covers.openlibrary.org/b/id/13499066-L.jpg?default=false",
     disponible: true,
     cats: ["Novela", "Clásico"],
   },
@@ -26,7 +26,7 @@ const libros = [
     titulo: "Cien años de soledad",
     autor: "Gabriel García Márquez",
     precio: 6200,
-    imagen: "https://example.com/cien-anos.jpg",
+    imagen: "https://covers.openlibrary.org/b/id/12627383-L.jpg?default=false",
     disponible: true,
     cats: ["Novela", "Fantástico"],
   },
@@ -34,7 +34,7 @@ const libros = [
     titulo: "Rayuela",
     autor: "Julio Cortázar",
     precio: 5300,
-    imagen: "https://example.com/rayuela.jpg",
+    imagen: "https://covers.openlibrary.org/b/id/1047466-L.jpg?default=false",
     disponible: false,
     cats: ["Novela"],
   },
@@ -58,6 +58,11 @@ async function main() {
           autor: { connect: { nombre: autor } },
           categorias: { connect: cats.map((nombre) => ({ nombre })) },
         },
+      });
+    } else if (existente.imagen !== datos.imagen) {
+      await prisma.libro.update({
+        where: { id: existente.id },
+        data: { imagen: datos.imagen },
       });
     }
   }

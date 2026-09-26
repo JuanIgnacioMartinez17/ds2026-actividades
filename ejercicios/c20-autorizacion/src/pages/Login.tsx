@@ -52,7 +52,7 @@ function Login() {
     };
 
     return (
-        <Container className="my-5" style={{ maxWidth: 400 }}>
+        <Container className="my-5 auth-page" style={{ maxWidth: 400 }}>
             <h2 className="mb-4">Iniciar sesión</h2>
 
             {errorApi && <Alert variant="danger">{errorApi}</Alert>}
@@ -63,6 +63,8 @@ function Login() {
                     <Form.Control
                         name="email"
                         type="email"
+                        autoComplete="email"
+                        placeholder="tu@email.com"
                         value={form.email}
                         onChange={handleChange}
                         isInvalid={!!errores.email}
@@ -77,6 +79,8 @@ function Login() {
                     <Form.Control
                         name="password"
                         type="password"
+                        autoComplete="current-password"
+                        placeholder="Tu contraseña"
                         value={form.password}
                         onChange={handleChange}
                         isInvalid={!!errores.password}
@@ -86,7 +90,7 @@ function Login() {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button type="submit" disabled={enviando}>
+                <Button variant="dark" type="submit" disabled={enviando}>
                     {enviando ? 'Ingresando...' : 'Ingresar'}
                 </Button>
             </Form>
