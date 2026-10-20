@@ -1,20 +1,24 @@
-# Backend Dockerfile
-FROM node:22-alpine
+FROM node:22-alpine AS build
 
-# Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar solo archivos de dependencias
 COPY package*.json ./
+RUN npm ci
 
-# Instalar dependencias en la imagen
-RUN npm install
-
-# Copiar el resto del código
 COPY . .
+RUN npx prisma generate && npm run build
 
-# Exponer puerto del servidor
+FROM node:22-alpine
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/prisma.config.ts ./
+COPY --from=build /app/prisma ./prisma
+
 EXPOSE 3000
 
-# Comando por defecto al iniciar el contenedor
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node dist/index.js"]

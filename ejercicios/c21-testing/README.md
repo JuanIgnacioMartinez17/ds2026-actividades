@@ -59,7 +59,7 @@ para `backend/` y un Static Site para este frontend en Render.
 
 - Root Directory: `ejercicios/c21-testing/backend`
 - Runtime: Docker
-- Dockerfile: `Dockerfile.prod`
+- Render detecta automáticamente `backend/Dockerfile`
 - Variables: `DATABASE_URL`, `JWT_SECRET` y `FRONTEND_URL`
 - `PORT` lo provee Render
 

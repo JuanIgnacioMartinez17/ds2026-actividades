@@ -1,6 +1,8 @@
 services:
   api:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     command: >
       sh -c "npx prisma db push && npx tsx prisma/seed.ts && npm run dev"
     ports:
